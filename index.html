@@ -227,6 +227,23 @@
     .pillar h3{flex:none;}
   }
 
+  /* ---------- FORMATIONS ---------- */
+  .formations{margin-top:40px;}
+  .formations-title{
+    font-family:var(--serif);font-weight:400;font-style:italic;
+    font-size:19px;color:var(--cream);margin-bottom:28px;
+  }
+  .formations-grid{display:flex;flex-wrap:wrap;gap:20px;}
+  .formation-card{
+    flex:1 1 220px;border:1px solid #37312A;padding:22px 20px;
+  }
+  .formation-name{
+    display:block;font-family:var(--serif);font-style:italic;color:var(--red);
+    font-size:20px;margin-bottom:10px;
+  }
+  .formation-card p{font-size:14.5px;color:#C9C2B3;line-height:1.55;}
+  .formations-note{margin-top:24px;font-size:14.5px;color:#C9C2B3;font-style:italic;font-family:var(--serif);}
+
   /* ---------- PROJECT ---------- */
   .project{background:var(--cream-dim);}
   .project-card{
@@ -392,6 +409,7 @@
     <div class="nav-links" id="navLinks">
       <a href="#despre">Despre</a>
       <a href="#activitate">Ce facem</a>
+      <a href="#servicii">Servicii</a>
       <a href="#proiect">Proiecte</a>
       <a href="#parteneri">Parteneriate</a>
       <a href="#contact">Contact</a>
@@ -442,11 +460,11 @@
   </div>
 </section>
 
-<section class="pillars" id="activitate">
+<section class="pillars" id="activitate" style="padding-bottom:0;">
   <div class="wrap">
     <div class="section-head">
       <h2>Ce facem</h2>
-      <p>Trei direcții care pornesc din același loc - pasiunea pentru muzica clasică -</p>
+      <p>Trei direcții care pornesc din același loc —<br><span style="color:var(--red);">pasiunea pentru muzică</span><br>spre public, spre copii și spre comunitate.</p>
     </div>
     <div class="pillar-list">
       <div class="pillar">
@@ -455,12 +473,115 @@
       </div>
       <div class="pillar">
         <h3>Evenimente muzicale</h3>
-        <p>Recitaluri și momente muzicale pentru evenimente private și publice, susținute de muzicieni profesioniști cu experiență în interpretarea de cameră.</p>
+        <p>Recitaluri și momente muzicale pentru evenimente private și publice, susținute de muzicieni profesioniști cu experiență în interpretarea de cameră. Ne adaptăm formația — solo, duo, trio sau cvartet — nevoilor fiecărui eveniment.</p>
       </div>
       <div class="pillar">
         <h3>Proiecte culturale</h3>
         <p>Inițiative educaționale și culturale derulate cu finanțare AFCN, fonduri locale sau europene, în parteneriat cu instituții de învățământ și cultură.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="pillars" id="servicii" style="padding-top:64px;">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Servicii pentru evenimente</h2>
+      <p>Muzică live pentru nunți, botezuri și evenimente private, cu formație adaptată ocaziei și repertoriu pregătit pentru orice moment al zilei.</p>
+    </div>
+
+    <div class="formations">
+      <h3 class="formations-title">Formații disponibile</h3>
+      <div class="formations-grid">
+        <div class="formation-card">
+          <span class="formation-name">Solo</span>
+          <p>Un singur instrument — vioară sau violoncel — pentru momente intime: ceremonii religioase, intrarea miresei, evenimente restrânse.</p>
+        </div>
+        <div class="formation-card">
+          <span class="formation-name">Duo</span>
+          <p>Doi muzicieni, sonoritate mai plină, potrivită pentru recepții de dimensiuni medii.</p>
+        </div>
+        <div class="formation-card">
+          <span class="formation-name">Trio</span>
+          <p>Configurația de bază a asociației — vioară, violoncel și pian, sau vioară, violă și violoncel — în funcție de repertoriu și de eveniment.</p>
+        </div>
+        <div class="formation-card">
+          <span class="formation-name">Cvartet</span>
+          <p>Cvartet clasic de coarde (două viori, violă, violoncel), sau vioară, violă, violoncel și pian — trio-ul extins ocazional cu un muzician colaborator, pentru evenimente ample sau recitaluri.</p>
+        </div>
+      </div>
+      <p class="formations-note">Pentru fiecare formație avem repertoriu adaptat oricărui tip de eveniment — de la ceremonii religioase la recepții festive.</p>
+    </div>
+
+    <div class="partner-form-wrap" id="rezervare" style="border-top-color:#37312A;">
+      <div class="partner-form-head">
+        <h3 style="color:var(--cream);">Rezervă o formație</h3>
+        <p style="color:#C9C2B3;">Completează detaliile evenimentului și îți răspundem cu disponibilitate și ofertă, de obicei în câteva zile.</p>
+      </div>
+      <form class="partner-form" action="https://formsubmit.co/contact@simfoart.ro" method="POST">
+        <input type="hidden" name="_subject" value="Rezervare formație — de pe simfoart.ro">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_next" value="https://simfoart.ro/#multumim">
+
+        <div class="form-field half">
+          <label for="r-tip" style="color:#C9C2B3;">Tip eveniment</label>
+          <select id="r-tip" name="Tip eveniment">
+            <option>Nuntă</option>
+            <option>Botez</option>
+            <option>Eveniment corporate</option>
+            <option>Altul</option>
+          </select>
+        </div>
+        <div class="form-field half">
+          <label for="r-formatie" style="color:#C9C2B3;">Formație dorită</label>
+          <select id="r-formatie" name="Formație dorită">
+            <option>Solo</option>
+            <option>Duo</option>
+            <option>Trio</option>
+            <option>Cvartet</option>
+            <option>Nu sunt sigur(ă) — recomandați-mi</option>
+          </select>
+        </div>
+
+        <div class="form-field half">
+          <label for="r-data" style="color:#C9C2B3;">Data evenimentului</label>
+          <input type="date" id="r-data" name="Data evenimentului">
+        </div>
+        <div class="form-field half">
+          <label for="r-locatie" style="color:#C9C2B3;">Locație / oraș</label>
+          <input type="text" id="r-locatie" name="Locație">
+        </div>
+
+        <div class="form-field half">
+          <label for="r-nume" style="color:#C9C2B3;">Nume complet</label>
+          <input type="text" id="r-nume" name="Nume" required>
+        </div>
+        <div class="form-field half">
+          <label for="r-email" style="color:#C9C2B3;">Email</label>
+          <input type="email" id="r-email" name="Email" required>
+        </div>
+
+        <div class="form-field half">
+          <label for="r-telefon" style="color:#C9C2B3;">Telefon</label>
+          <input type="tel" id="r-telefon" name="Telefon" required>
+        </div>
+
+        <div class="form-field">
+          <label for="r-mesaj" style="color:#C9C2B3;">Detalii despre eveniment (opțional)</label>
+          <textarea id="r-mesaj" name="Detalii" placeholder="Orar aproximativ, durată, repertoriu dorit, alte precizări..."></textarea>
+        </div>
+
+        <div class="form-field form-consent">
+          <label class="consent-label">
+            <input type="checkbox" name="Consimțământ GDPR" value="Sunt de acord" required>
+            <span style="color:#C9C2B3;">Sunt de acord ca datele completate mai sus să fie folosite pentru a răspunde acestei solicitări, conform <a href="/privacy.html" style="color:var(--red);">Politicii de confidențialitate</a>.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Trimite solicitarea</button>
+        <p class="form-note" style="color:#8A8375;">Datele sunt folosite doar pentru a răspunde solicitării tale, nu sunt distribuite mai departe.</p>
+      </form>
     </div>
   </div>
 </section>
