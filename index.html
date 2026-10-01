@@ -106,6 +106,15 @@
   .nav-cta:hover{background:var(--red);}
   .nav-toggle{display:none;background:none;border:none;font-size:26px;color:var(--ink);cursor:pointer;}
 
+  .nav-social{display:flex;align-items:center;gap:10px;margin-left:28px;margin-right:20px;}
+  .nav-social a{
+    display:flex;align-items:center;justify-content:center;
+    width:32px;height:32px;border-radius:50%;
+    color:var(--ink-soft);border:1px solid var(--line);transition:all .2s;
+  }
+  .nav-social a:hover{color:var(--cream);background:var(--red);border-color:var(--red);}
+  .nav-social svg{width:16px;height:16px;fill:currentColor;}
+
   @media (max-width:1300px){
     .nav-links{
       position:absolute;top:100%;left:0;right:0;
@@ -117,6 +126,7 @@
     .nav-links a{padding:16px 32px;border-top:1px solid var(--line);width:100%;}
     .nav-toggle{display:block;margin-left:auto;}
     .nav-cta{display:none;}
+    .nav-social{display:none;}
   }
 
   /* ---------- HERO ---------- */
@@ -411,6 +421,14 @@
       <a href="#proiect">Proiecte</a>
       <a href="#parteneri">Parteneriate</a>
       <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-social">
+      <a href="https://www.facebook.com/profile.php?id=61568885948565" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.45 2.91h-2.33V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/channel/UCB99dYWeT0BvXTeIr50e3qg" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z"/></svg>
+      </a>
     </div>
     <a href="#formular" class="nav-cta">Propune un parteneriat</a>
     <button class="nav-toggle" id="navToggle" aria-label="Meniu">☰</button>
@@ -731,6 +749,7 @@
         <p>Vicepreședinte: Mircea-Viorel Vicleanu</p>
         <p>Secretar: Evelina Mehedinți</p>
         <a href="https://www.facebook.com/profile.php?id=61568885948565" target="_blank" rel="noopener">Pagina de Facebook</a>
+        <a href="https://www.youtube.com/channel/UCB99dYWeT0BvXTeIr50e3qg" target="_blank" rel="noopener">Canal YouTube</a>
         <a href="#parteneri">Propune un parteneriat</a>
       </div>
     </div>
