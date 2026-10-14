@@ -541,13 +541,13 @@
   }
 
   /* scroll reveal: `.js` is only set by a head script when motion is allowed */
-  .js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li){opacity:0;transform:translateY(24px);}
-  .js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li).in{
+  .js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li,.estimator){opacity:0;transform:translateY(24px);}
+  .js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li,.estimator).in{
     opacity:1;transform:none;
     transition:opacity .8s var(--ease) var(--d,0s),transform .8s var(--ease) var(--d,0s),
                translate .3s ease,border-color .3s ease,background-color .3s ease;
   }
-  @media print{.js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li){opacity:1!important;transform:none!important;}}
+  @media print{.js :is(.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li,.estimator){opacity:1!important;transform:none!important;}}
 
   /* hero entrance */
   @keyframes rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
@@ -566,7 +566,102 @@
     html{scroll-behavior:auto;}
     *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
   }
+
+  /* ================= PACKAGE 2: estimator, expandable cards, click-to-load video ================= */
+  fieldset{border:0;min-width:0;}
+
+  /* ---- estimator ---- */
+  .estimator{margin-top:56px;padding-top:48px;border-top:1px solid #37312A;}
+  .est-intro{font-size:15.5px;color:#C9C2B3;max-width:60ch;margin:-8px 0 28px;}
+  .est-controls{display:flex;flex-wrap:wrap;gap:28px 40px;margin-bottom:32px;}
+  .est-field{min-width:0;}
+  .est-field legend,.est-field > label{display:block;font-size:14.5px;color:#C9C2B3;margin-bottom:12px;padding:0;}
+  .est-chips{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{position:relative;display:inline-block;}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0;}
+  .chip input:focus-visible{outline:none;box-shadow:none;}
+  .chip span{
+    display:inline-block;padding:10px 18px;border:1px solid #5C5548;border-radius:40px;
+    font-size:15px;line-height:1.5;color:var(--cream);cursor:pointer;
+    transition:background-color .2s ease,border-color .2s ease;
+  }
+  .chip:hover span{border-color:var(--cream);}
+  .chip input:checked + span{background:var(--red-aa);border-color:var(--red-aa);}
+  .chip input:focus-visible + span{outline:3px solid var(--red-aa);outline-offset:2px;box-shadow:0 0 0 2px var(--cream);}
+  .est-range-wrap{min-width:260px;max-width:440px;flex:1 1 300px;}
+  .est-range-wrap output{color:var(--cream);font-weight:600;}
+  .est-range{width:100%;accent-color:var(--red-light);height:32px;cursor:pointer;}
+  .est-range-scale{display:flex;justify-content:space-between;font-size:13.5px;color:#8A8375;margin-top:2px;}
+
+  .est-results{display:flex;flex-wrap:wrap;gap:20px;}
+  .est-card{flex:1 1 280px;max-width:420px;border:1px solid #37312A;padding:24px 22px;position:relative;
+    transition:border-color .3s ease,background-color .3s ease;}
+  .est-card.reco{order:-1;border-color:var(--red-light);background:rgba(236,94,67,.07);}
+  .est-badge{
+    display:inline-block;margin-bottom:12px;padding:3px 10px;border-radius:2px;
+    background:var(--red-aa);color:var(--cream);font-size:13px;font-weight:600;letter-spacing:.02em;
+  }
+  .est-badge[hidden]{display:none;}
+  .est-name{display:block;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--red-light);}
+  .est-who{display:block;font-size:14px;color:#C9C2B3;margin-top:2px;}
+  .est-total{display:block;font-family:var(--serif);font-size:38px;line-height:1.1;color:var(--cream);margin-top:16px;}
+  .est-per{display:block;font-size:14.5px;color:#C9C2B3;margin-top:4px;}
+  .est-reason{font-size:14.5px;color:#C9C2B3;line-height:1.55;margin-top:14px;}
+  .est-note{margin-top:20px;font-size:14px;color:#C9C2B3;font-style:italic;font-family:var(--serif);}
+  .est-cta{margin-top:24px;border:none;cursor:pointer;font-family:var(--sans);}
+
+  /* ---- expandable formation cards ---- */
+  .formations-grid:has(details[open]){align-items:flex-start;}
+  .formation-more{margin-top:16px;border-top:1px solid #37312A;padding-top:12px;}
+  .formation-more summary{
+    list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    font-size:14.5px;font-weight:500;color:var(--cream);padding:6px 0;
+  }
+  .formation-more summary::-webkit-details-marker{display:none;}
+  .formation-more summary::after{
+    content:'';flex:none;width:9px;height:9px;border-right:2px solid var(--red-light);border-bottom:2px solid var(--red-light);
+    transform:rotate(45deg) translateY(-2px);transition:transform .25s ease;
+  }
+  .formation-more[open] summary::after{transform:rotate(-135deg) translateY(-2px);}
+  .formation-more summary:hover{color:var(--red-light);}
+  .more-body{padding-top:8px;animation:rise .4s var(--ease) both;}
+  .more-body ul{list-style:none;}
+  .more-body li{font-size:14.5px;color:#C9C2B3;line-height:1.55;padding:6px 0;}
+  .more-body li strong{color:var(--cream);font-weight:500;}
+  .more-body a{display:inline-block;margin-top:8px;font-size:14.5px;font-weight:500;color:var(--red-light);text-decoration:underline;text-underline-offset:3px;}
+  .more-body a:hover{color:var(--cream);}
+
+  /* ---- click-to-load video ---- */
+  .video-frame{position:relative;border:1px solid #37312A;}
+  .video-facade{
+    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    width:100%;height:100%;border:0;padding:16px;cursor:pointer;color:var(--cream);font-family:var(--sans);
+    background:radial-gradient(circle at 50% 35%,#2e231c 0%,#15120F 72%);
+  }
+  .video-facade::before{
+    content:'';position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:120%;aspect-ratio:1;
+    background:radial-gradient(circle,rgba(216,57,27,.28) 0%,rgba(216,57,27,0) 65%);pointer-events:none;
+  }
+  .video-facade .play{
+    position:relative;width:76px;height:76px;border-radius:50%;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .25s ease,background-color .25s ease;
+  }
+  .video-facade .play svg{width:30px;height:30px;margin-left:4px;}
+  .video-facade:hover .play{transform:scale(1.08);background:var(--red-aa);border-color:var(--red-aa);}
+  .video-facade .vf-text{position:relative;font-size:14.5px;font-weight:500;}
+  .video-facade .vf-sub{position:relative;font-size:13.5px;color:#C9C2B3;max-width:30ch;text-align:center;line-height:1.45;}
+  .video-facade:focus-visible{outline-offset:-6px;}
+  .video-ext{display:inline-block;margin-top:12px;font-size:14px;color:#C9C2B3;text-decoration:underline;text-underline-offset:3px;}
+  .video-ext:hover{color:var(--cream);}
+
+  @media (max-width:600px){
+    .est-card{max-width:none;}
+    .est-total{font-size:34px;}
+  }
 </style>
+<noscript><style>.video-frame,.est-cta{display:none;}.estimator{display:none;}</style></noscript>
 </head>
 <body>
 
@@ -674,19 +769,41 @@
       <h3 class="formations-title">Formații disponibile</h3>
       <div class="formations-grid">
         <div class="formation-card">
-          <span class="formation-name">Duo</span>
+          <span class="formation-name" data-form="duo">Duo</span>
           <p>Doi muzicieni, sonoritate mai plină, potrivită pentru recepții de dimensiuni medii.</p>
+          <details class="formation-more"><summary>Detalii</summary><div class="more-body"><ul><li><strong>Ideal pentru:</strong> petreceri mici și medii, primirea invitaților, fundal muzical</li><li><strong>Repertoriu:</strong> clasic sau prelucrări moderne</li><li><strong>Preț orientativ:</strong> <span data-price="duo">la cerere</span></li></ul><a href="#estimare">Calculează o ofertă &rarr;</a></div></details>
         </div>
         <div class="formation-card">
           <span class="formation-name">Trio</span>
           <p>Configurația de bază a asociației — vioară, violoncel și pian, sau vioară, violă și violoncel — în funcție de repertoriu și de eveniment.</p>
+          <details class="formation-more"><summary>Detalii</summary><div class="more-body"><ul><li><strong>Repertoriu:</strong> clasic sau prelucrări moderne, adaptat evenimentului</li><li><strong>Preț:</strong> la cerere — spune-ne detaliile evenimentului</li></ul></div></details>
         </div>
         <div class="formation-card">
-          <span class="formation-name">Cvartet</span>
+          <span class="formation-name" data-form="quartet">Cvartet</span>
           <p>Cvartet clasic de coarde (două viori, violă, violoncel), sau vioară, violă, violoncel și pian — trio-ul extins ocazional cu un muzician colaborator, pentru evenimente ample sau recitaluri.</p>
+          <details class="formation-more"><summary>Detalii</summary><div class="more-body"><ul><li><strong>Ideal pentru:</strong> nunți, evenimente ample și momente cu impact — intrarea miresei, ceremonia, recepția</li><li><strong>Repertoriu:</strong> clasic sau prelucrări moderne</li><li><strong>Preț orientativ:</strong> <span data-price="cvartet">la cerere</span></li></ul><a href="#estimare">Calculează o ofertă &rarr;</a></div></details>
         </div>
       </div>
       <p class="formations-note">Pentru fiecare formație avem repertoriu adaptat oricărui tip de eveniment — de la ceremonii religioase la recepții festive.</p>
+    </div>
+
+
+    <div class="estimator" id="estimare">
+      <h3 class="formations-title">Estimează-ți evenimentul</h3>
+      <p class="est-intro">Alege tipul evenimentului și cât timp vrei muzică live — îți arătăm formația recomandată și un preț orientativ.</p>
+      <div class="est-controls">
+        <fieldset class="est-field"><legend>Tipul evenimentului</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-tip" value="0" checked><span>Nuntă</span></label><label class="chip"><input type="radio" name="est-tip" value="1"><span>Botez</span></label><label class="chip"><input type="radio" name="est-tip" value="2"><span>Eveniment corporate</span></label><label class="chip"><input type="radio" name="est-tip" value="3"><span>Altul</span></label></div></fieldset>
+        <fieldset class="est-field"><legend>Număr de invitați</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-guests" value="0"><span>Sub 40</span></label><label class="chip"><input type="radio" name="est-guests" value="1" checked><span>40–100</span></label><label class="chip"><input type="radio" name="est-guests" value="2"><span>Peste 100</span></label></div></fieldset>
+        <div class="est-field est-range-wrap">
+          <label for="est-ore">Durata muzicii live: <output id="est-ore-out" for="est-ore">1 h 30 min</output></label>
+          <input class="est-range" type="range" id="est-ore" min="1" max="6" step="0.5" value="1.5">
+          <div class="est-range-scale" aria-hidden="true"><span>1 h</span><span>6 h</span></div>
+        </div>
+      </div>
+      <div class="est-results"><div class="est-card" id="est-quartet"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Cvartet</span><span class="est-who">4 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div><div class="est-card" id="est-duo"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Duo</span><span class="est-who">2 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div></div>
+      <p class="sr-only" id="est-live" role="status" aria-live="polite"></p>
+      <p class="est-note">Estimare orientativă — prețul final se stabilește la ofertă și este negociabil.</p>
+      <a href="#rezervare" class="btn btn-primary est-cta" id="est-cta">Cere ofertă pentru această alegere</a>
     </div>
 
     <div class="videos">
@@ -694,15 +811,17 @@
       <div class="videos-grid">
         <div class="video-block">
           <div class="video-label">Duo</div>
-          <div class="video-frame portrait">
-            <iframe loading="lazy" title="SimfoArt — Duo (videoclip Facebook)" src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1093387403189750%2F&show_text=false&width=267&t=0" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          <div class="video-frame portrait" data-embed="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1093387403189750%2F&show_text=false&width=267&t=0&autoplay=true" data-title="SimfoArt — Duo (videoclip Facebook)">
+            <button type="button" class="video-facade"><span class="play"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4.5v15l13-7.5z" fill="#FAF6EF"/></svg></span><span class="vf-text">Redă videoclipul: Duo</span><span class="vf-sub">Se încarcă de pe Facebook după ce apeși</span></button>
           </div>
+          <a class="video-ext" href="https://www.facebook.com/reel/1093387403189750/" target="_blank" rel="noopener">Deschide pe Facebook<span class="sr-only"> (filă nouă)</span></a>
         </div>
         <div class="video-block wide">
           <div class="video-label">Cvartet</div>
-          <div class="video-frame landscape">
-            <iframe loading="lazy" src="https://www.youtube.com/embed/kgAHO36YQhI?vq=hd1080&cc_load_policy=0" title="SimfoArt — Cvartet" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <div class="video-frame landscape" data-embed="https://www.youtube-nocookie.com/embed/kgAHO36YQhI?vq=hd1080&cc_load_policy=0&autoplay=1&playsinline=1" data-title="SimfoArt — Cvartet">
+            <button type="button" class="video-facade"><span class="play"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4.5v15l13-7.5z" fill="#FAF6EF"/></svg></span><span class="vf-text">Redă videoclipul: Cvartet</span><span class="vf-sub">Se încarcă de pe YouTube după ce apeși</span></button>
           </div>
+          <a class="video-ext" href="https://www.youtube.com/watch?v=kgAHO36YQhI" target="_blank" rel="noopener">Deschide pe YouTube<span class="sr-only"> (filă nouă)</span></a>
         </div>
       </div>
     </div>
@@ -1063,7 +1182,7 @@
 
       /* ---- scroll reveal + count-up (only when motion is allowed) ---- */
       if (doc.classList.contains('js')) {
-        var sel = '.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li';
+        var sel = '.section-head,.about-copy p,.fact,.pillar,.formations-title,.formation-card,.formations-note,.videos-title,.video-block,.partner-form-head,.partner-form,.project-info,.project-stats .stat,.timeline li,.vision-item,.partner-copy p,.offer-list li,.estimator';
         var els = Array.prototype.slice.call(document.querySelectorAll(sel));
         els.forEach(function(el){
           var sibs = Array.prototype.filter.call(el.parentNode.children, function(c){ return c.matches(sel); });
@@ -1099,6 +1218,118 @@
     } catch (err) {
       document.documentElement.classList.remove('js');
       if (window.console) console.warn('enhancements disabled:', err);
+    }
+  })();
+
+  /* ================= PACKAGE 2 SCRIPT ================= */
+  (function(){
+    try {
+      /* >>> Edit prices here (lei per hour). Set a value to null to hide that price. <<< */
+      var PRICES = { cvartet: 2400, duo: 1200 };
+      var T = {"locale": "ro-RO", "lei": "lei", "perhour": "{p} lei / oră", "hour": "h", "min": "min", "reasonQ": ["Sunet plin și spectaculos — impresionează la intrarea miresei și la momentele importante.", "Sunet bogat, potrivit pentru o petrecere de familie cu mulți invitați.", "Imagine elegantă pentru recepții și evenimente de protocol.", "Sunet bogat și festiv, potrivit pentru orice ocazie."], "reasonQsmall": "Sunetul complet al cvartetului — alegerea spectaculoasă, chiar și pentru o petrecere restrânsă.", "reasonD": "Sunet mai intim și discret, ideal pentru fundal muzical sau petreceri restrânse.", "reasonDbig": "Varianta mai discretă — la un număr mare de invitați, cvartetul se aude mai bine.", "summary": "Recomandat: {name}, {dur}, aproximativ {total} lei.", "prefill": "Estimare de pe site: {name}, {dur} (aprox. {total} lei), invitați: {guests}.", "names": {"quartet": "Cvartet", "duo": "Duo"}};
+      var nf = new Intl.NumberFormat(T.locale);
+      function fmt(n){ return nf.format(n); }
+      function dur(h){
+        var whole = Math.floor(h), half = (h - whole) > 0;
+        return whole + ' ' + T.hour + (half ? ' 30 ' + T.min : '');
+      }
+
+      /* prices inside the expandable cards */
+      document.querySelectorAll('[data-price]').forEach(function(el){
+        var p = PRICES[el.getAttribute('data-price')];
+        if (p) el.textContent = T.perhour.replace('{p}', fmt(p));
+      });
+
+      /* ---- estimator ---- */
+      var est = document.getElementById('estimare');
+      if (est) {
+        var range = document.getElementById('est-ore');
+        var out = document.getElementById('est-ore-out');
+        var live = document.getElementById('est-live');
+        var cardQ = document.getElementById('est-quartet');
+        var cardD = document.getElementById('est-duo');
+        var state = {};
+        var liveTimer;
+
+        function val(name){ return parseInt(est.querySelector('input[name="' + name + '"]:checked').value, 10); }
+        function fill(card, key, h, reco, reason){
+          var p = PRICES[key];
+          card.classList.toggle('reco', reco);
+          card.querySelector('.est-badge').hidden = !reco;
+          card.querySelector('[data-total]').textContent = p ? fmt(p * h) + ' ' + T.lei : '—';
+          card.querySelector('[data-per]').textContent = p ? T.perhour.replace('{p}', fmt(p)) : '';
+          card.querySelector('[data-reason]').textContent = reason;
+        }
+        function update(){
+          var tip = val('est-tip'), guests = val('est-guests'), h = parseFloat(range.value);
+          out.textContent = dur(h);
+          var duoReco = (guests === 0 && tip !== 2);
+          var reasonQ = (guests === 0) ? T.reasonQsmall : T.reasonQ[tip];
+          var reasonD = (guests === 2) ? T.reasonDbig : T.reasonD;
+          fill(cardQ, 'cvartet', h, !duoReco, reasonQ);
+          fill(cardD, 'duo', h, duoReco, reasonD);
+          var key = duoReco ? 'duo' : 'cvartet';
+          state = { tip: tip, key: key, h: h, guests: guests, total: PRICES[key] ? PRICES[key] * h : null };
+          clearTimeout(liveTimer);
+          liveTimer = setTimeout(function(){
+            live.textContent = T.summary.replace('{name}', duoReco ? T.names.duo : T.names.quartet)
+              .replace('{dur}', dur(h)).replace('{total}', state.total ? fmt(state.total) : '—');
+          }, 450);
+        }
+        est.addEventListener('input', update);
+        est.addEventListener('change', update);
+        update();
+
+        /* CTA: pre-fill the booking form, then let the anchor scroll to it */
+        var cta = document.getElementById('est-cta');
+        var userTouched = false;
+        var msg = document.getElementById('r-mesaj');
+        if (msg) msg.addEventListener('input', function(){ userTouched = true; });
+        cta.addEventListener('click', function(){
+          var selTip = document.getElementById('r-tip'), selForm = document.getElementById('r-formatie');
+          if (selTip) selTip.selectedIndex = state.tip;
+          if (selForm) selForm.selectedIndex = (state.key === 'duo') ? 0 : 2;  /* options: Duo, Trio, Cvartet, Not sure */
+          if (msg && (!userTouched || msg.value === '')) {
+            var guestsLabel = est.querySelectorAll('input[name="est-guests"]')[state.guests].nextElementSibling.textContent;
+            msg.value = T.prefill.replace('{name}', state.key === 'duo' ? T.names.duo : T.names.quartet)
+              .replace('{dur}', dur(state.h)).replace('{total}', state.total ? fmt(state.total) : '—').replace('{guests}', guestsLabel);
+            userTouched = false;
+          }
+          setTimeout(function(){
+            var first = document.getElementById('r-data');
+            if (first) first.focus({ preventScroll: true });
+          }, 700);
+        });
+      }
+
+      /* ---- links inside expandable cards that point to the estimator: pick matching ensemble ---- */
+      document.querySelectorAll('.more-body a[href="#estimare"]').forEach(function(a){
+        a.addEventListener('click', function(){
+          var card = a.closest('.formation-card'); if (!card) return;
+          var guestsRadios = document.querySelectorAll('input[name="est-guests"]');
+          var small = card.querySelector('.formation-name') && card.querySelector('.formation-name').getAttribute('data-form') === 'duo';
+          if (guestsRadios.length) { guestsRadios[small ? 0 : 1].checked = true; guestsRadios[small ? 0 : 1].dispatchEvent(new Event('change', { bubbles: true })); }
+        });
+      });
+
+      /* ---- click-to-load video: nothing is requested from YouTube/Facebook until the viewer presses play ---- */
+      document.querySelectorAll('.video-frame[data-embed]').forEach(function(frame){
+        var btn = frame.querySelector('.video-facade');
+        if (!btn) return;
+        btn.addEventListener('click', function(){
+          var f = document.createElement('iframe');
+          f.src = frame.getAttribute('data-embed');
+          f.title = frame.getAttribute('data-title');
+          f.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          f.setAttribute('allowfullscreen', 'true');
+          f.setAttribute('frameborder', '0');
+          f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          frame.replaceChild(f, btn);
+          f.focus();
+        });
+      });
+    } catch (err) {
+      if (window.console) console.warn('package-2 enhancements disabled:', err);
     }
   })();
 </script>
