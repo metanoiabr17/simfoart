@@ -724,6 +724,27 @@
   .est-slider{position:static;padding-top:0;}
   .est-bubble{top:-5.3px;right:8px;left:auto;transform:none;transition:none;}
   .est-range{height:44.5px;}
+
+  /* ================= ensemble selector + duo limit ================= */
+  .est-controls{gap:28px 32px;}
+  .est-hint{margin-top:10px;max-width:24ch;font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.45;color:var(--red-light);}
+  .chip input:disabled + span{color:#8A8375;border-color:#3d352c;cursor:not-allowed;text-decoration:line-through;text-decoration-color:rgba(138,131,117,.7);}
+  .chip:hover input:disabled + span{border-color:#3d352c;}
+  /* the quartet is always promoted (first, badge); the card the visitor picked gets the highlight */
+  .est-card.reco{border-color:#37312A;background:transparent;}
+  .est-card.selected{border-color:var(--red-light);background:rgba(236,94,67,.07);}
+  .est-card.reco.selected{border-color:var(--red-light);background:rgba(236,94,67,.07);}
+  .est-badge.off{background:#3d352c;color:#C9C2B3;}
+  .est-card.unavailable .est-name,
+  .est-card.unavailable .est-who,
+  .est-card.unavailable .est-per,
+  .est-card.unavailable .est-reason{color:#8A8375;}
+  .est-card.unavailable .est-total{color:#8A8375;font-size:30px;}
+
+  /* the limit message lives outside the controls row and always keeps its space,
+     so nothing moves while the slider is being dragged */
+  .est-controls{margin-bottom:10px;}
+  .est-hint{max-width:none;min-height:22px;margin:0 0 22px;}
 </style>
 <noscript><style>.video-frame,.est-cta{display:none;}.estimator{display:none;}</style></noscript>
 </head>
@@ -857,6 +878,7 @@
       <p class="est-intro">Alege tipul evenimentului și cât timp vrei muzică live — îți arătăm formația recomandată și un preț orientativ.</p>
       <div class="est-controls">
         <fieldset class="est-field"><legend>Tipul evenimentului</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-tip" value="0" checked><span>Nuntă</span></label><label class="chip"><input type="radio" name="est-tip" value="1"><span>Botez</span></label><label class="chip"><input type="radio" name="est-tip" value="2"><span>Eveniment corporate</span></label><label class="chip"><input type="radio" name="est-tip" value="3"><span>Altul</span></label></div></fieldset>
+        <fieldset class="est-field"><legend>Formația</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-form" value="cvartet" checked><span>Cvartet</span></label><label class="chip"><input type="radio" name="est-form" value="duo"><span>Duo</span></label></div></fieldset>
         <div class="est-field est-range-wrap">
           <label for="est-ore">Durata muzicii live</label>
           <div class="est-slider" style="--f:.1">
@@ -866,6 +888,7 @@
           </div>
         </div>
       </div>
+      <p class="est-hint" id="est-hint"></p>
       <div class="est-results"><div class="est-card" id="est-quartet"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Cvartet</span><span class="est-who">4 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div><div class="est-card" id="est-duo"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Duo</span><span class="est-who">2 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div></div>
       <p class="sr-only" id="est-live" role="status" aria-live="polite"></p>
       <p class="est-note">Estimare orientativă — prețul final se stabilește la ofertă și este negociabil.</p>
@@ -1292,7 +1315,10 @@
     try {
       /* >>> Edit prices here (lei per hour). Set a value to null to hide that price. <<< */
       var PRICES = { cvartet: 2400, duo: 1200 };
+      /* Duo is only offered up to this many hours; above it the quartet is promoted. */
+      var DUO_MAX_HOURS = 1.5;
       var T = {"locale": "ro-RO", "lei": "lei", "perhour": "{p} lei / oră", "hour": "h", "min": "min", "reasonQ": ["Sunet plin și spectaculos — impresionează la intrarea miresei și la momentele importante.", "Sunet bogat, potrivit pentru o petrecere de familie cu mulți invitați.", "Imagine elegantă pentru recepții și evenimente de protocol.", "Sunet bogat și festiv, potrivit pentru orice ocazie."], "reasonQsmall": "Sunetul complet al cvartetului — alegerea spectaculoasă, chiar și pentru o petrecere restrânsă.", "reasonD": "Sunet mai intim și discret, ideal pentru fundal muzical sau petreceri restrânse.", "reasonDbig": "Varianta mai discretă — la un număr mare de invitați, cvartetul se aude mai bine.", "summary": "Recomandat: {name}, {dur}, aproximativ {total} lei.", "prefill": "Estimare de pe site: {name}, {dur} (aprox. {total} lei).", "names": {"quartet": "Cvartet", "duo": "Duo"}};
+      var T2 = {"unavail": "Indisponibil peste 1 h 30 min", "duoNo": "Duo este disponibil doar pentru evenimente de până la 1 h 30 min. Pentru o durată mai mare, vă recomandăm cvartetul.", "qExtra": "Alegerea potrivită pentru această durată.", "limit": "Duo este disponibil doar până la 1 h 30 min.", "switched": "Duo este disponibil doar până la 1 h 30 min — am selectat cvartetul.", "liveNo": "Duo nu este disponibil peste 1 h 30 min. "};
       var nf = new Intl.NumberFormat(T.locale);
       function fmt(n){ return nf.format(n); }
       function dur(h){
@@ -1312,6 +1338,7 @@
         var range = document.getElementById('est-ore');
         var out = document.getElementById('est-ore-out');
         var live = document.getElementById('est-live');
+        var hint = document.getElementById('est-hint');
         var cardQ = document.getElementById('est-quartet');
         var cardD = document.getElementById('est-duo');
         var state = {};
@@ -1333,13 +1360,30 @@
           sl.style.setProperty('--f', ((h - 1) / 5).toFixed(4));
           range.setAttribute('aria-valuetext', dur(h));
           sl.querySelectorAll('.est-ticks span').forEach(function(t, i){ t.classList.toggle('on', i + 1 <= h); });
-          fill(cardQ, 'cvartet', h, true, T.reasonQ[tip]);
-          fill(cardD, 'duo', h, false, T.reasonD);
-          var key = 'cvartet';
+          var duoOk = h <= DUO_MAX_HOURS;
+          var duoRadio = est.querySelector('input[name="est-form"][value="duo"]');
+          var qRadio = est.querySelector('input[name="est-form"][value="cvartet"]');
+          var switched = false;
+          duoRadio.disabled = !duoOk;
+          if (!duoOk && duoRadio.checked) { qRadio.checked = true; switched = true; }
+          var key = est.querySelector('input[name="est-form"]:checked').value;
+          hint.textContent = duoOk ? '' : (switched ? T2.switched : T2.limit);
+          fill(cardQ, 'cvartet', h, true, T.reasonQ[tip] + (duoOk ? '' : ' ' + T2.qExtra));
+          fill(cardD, 'duo', h, false, duoOk ? T.reasonD : T2.duoNo);
+          cardQ.classList.toggle('selected', key === 'cvartet');
+          cardD.classList.toggle('selected', key === 'duo');
+          cardD.classList.toggle('unavailable', !duoOk);
+          var dBadge = cardD.querySelector('.est-badge');
+          dBadge.classList.toggle('off', !duoOk);
+          if (!duoOk) {
+            dBadge.textContent = T2.unavail; dBadge.hidden = false;
+            cardD.querySelector('[data-total]').textContent = '—';
+            cardD.querySelector('[data-per]').textContent = '';
+          }
           state = { tip: tip, key: key, h: h, total: PRICES[key] ? PRICES[key] * h : null };
           clearTimeout(liveTimer);
           liveTimer = setTimeout(function(){
-            live.textContent = T.summary.replace('{name}', T.names.quartet)
+            live.textContent = (duoOk ? '' : T2.liveNo) + T.summary.replace('{name}', key === 'duo' ? T.names.duo : T.names.quartet)
               .replace('{dur}', dur(h)).replace('{total}', state.total ? fmt(state.total) : '—');
           }, 450);
         }
