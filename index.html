@@ -660,6 +660,70 @@
     .est-card{max-width:none;}
     .est-total{font-size:34px;}
   }
+
+  /* ================= refined hours slider ================= */
+  .est-range-wrap{min-width:280px;max-width:520px;flex:1 1 340px;}
+  .est-range-wrap > label{margin-bottom:6px;}
+  .est-slider{position:relative;padding-top:46px;margin:0 8px;--th:22px;--f:.1;}
+  .est-bubble{
+    position:absolute;top:0;
+    left:clamp(48px, calc(var(--th) / 2 + (100% - var(--th)) * var(--f)), calc(100% - 48px));
+    transform:translateX(-50%);
+    padding:5px 15px;border-radius:30px;white-space:nowrap;pointer-events:none;
+    background:rgba(236,94,67,.13);border:1px solid rgba(236,94,67,.42);
+    color:var(--cream);font-family:var(--serif);font-style:italic;font-weight:400;font-size:15.5px;line-height:1.4;
+    transition:left .12s ease-out;
+  }
+  .est-range{
+    -webkit-appearance:none;appearance:none;display:block;width:100%;height:28px;margin:0;
+    background:transparent;cursor:pointer;accent-color:var(--red-light);
+  }
+  .est-range:focus-visible{outline:none;box-shadow:none;}
+  .est-range::-webkit-slider-runnable-track{
+    height:3px;border-radius:3px;
+    background:linear-gradient(to right,var(--red-light) 0,var(--red-light) calc(var(--th) / 2 + (100% - var(--th)) * var(--f)),#3d352c calc(var(--th) / 2 + (100% - var(--th)) * var(--f)),#3d352c 100%);
+  }
+  .est-range::-moz-range-track{height:3px;border-radius:3px;background:#3d352c;}
+  .est-range::-moz-range-progress{height:3px;border-radius:3px;background:var(--red-light);}
+  .est-range::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;margin-top:-9.5px;border:0;border-radius:50%;
+    background:var(--cream);
+    box-shadow:0 0 0 5px rgba(236,94,67,.2),0 3px 10px rgba(0,0,0,.5);
+    transition:box-shadow .2s ease,transform .2s ease;
+  }
+  .est-range::-moz-range-thumb{
+    width:22px;height:22px;border:0;border-radius:50%;background:var(--cream);
+    box-shadow:0 0 0 5px rgba(236,94,67,.2),0 3px 10px rgba(0,0,0,.5);
+    transition:box-shadow .2s ease,transform .2s ease;
+  }
+  .est-range:hover::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(236,94,67,.26),0 3px 10px rgba(0,0,0,.5);}
+  .est-range:hover::-moz-range-thumb{box-shadow:0 0 0 8px rgba(236,94,67,.26),0 3px 10px rgba(0,0,0,.5);}
+  .est-range:active::-webkit-slider-thumb{transform:scale(1.08);}
+  .est-range:active::-moz-range-thumb{transform:scale(1.08);}
+  .est-range:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px #15120F,0 0 0 6.5px var(--cream),0 3px 10px rgba(0,0,0,.5);}
+  .est-range:focus-visible::-moz-range-thumb{box-shadow:0 0 0 4px #15120F,0 0 0 6.5px var(--cream),0 3px 10px rgba(0,0,0,.5);}
+
+  .est-ticks{position:relative;height:26px;margin-top:2px;}
+  .est-ticks span{
+    position:absolute;top:0;
+    left:calc(var(--th) / 2 + (100% - var(--th)) * var(--i) / 5);
+    transform:translateX(-50%);
+    font-size:13.5px;line-height:1;color:#8A8375;padding-top:11px;white-space:nowrap;
+    transition:color .25s ease;
+  }
+  .est-ticks span::before{
+    content:'';position:absolute;top:0;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
+    background:#4a4136;transition:background-color .25s ease,transform .25s ease;
+  }
+  .est-ticks span.on{color:var(--cream);}
+  .est-ticks span.on::before{background:var(--red-light);transform:scale(1.15);}
+
+  /* slider aligned with the event-type chips: same label row, same centre line */
+  .est-range-wrap{position:relative;}
+  .est-range-wrap > label{margin-bottom:12px;}
+  .est-slider{position:static;padding-top:0;}
+  .est-bubble{top:-5.3px;right:8px;left:auto;transform:none;transition:none;}
+  .est-range{height:44.5px;}
 </style>
 <noscript><style>.video-frame,.est-cta{display:none;}.estimator{display:none;}</style></noscript>
 </head>
@@ -793,11 +857,13 @@
       <p class="est-intro">Alege tipul evenimentului și cât timp vrei muzică live — îți arătăm formația recomandată și un preț orientativ.</p>
       <div class="est-controls">
         <fieldset class="est-field"><legend>Tipul evenimentului</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-tip" value="0" checked><span>Nuntă</span></label><label class="chip"><input type="radio" name="est-tip" value="1"><span>Botez</span></label><label class="chip"><input type="radio" name="est-tip" value="2"><span>Eveniment corporate</span></label><label class="chip"><input type="radio" name="est-tip" value="3"><span>Altul</span></label></div></fieldset>
-        <fieldset class="est-field"><legend>Număr de invitați</legend><div class="est-chips"><label class="chip"><input type="radio" name="est-guests" value="0"><span>Sub 40</span></label><label class="chip"><input type="radio" name="est-guests" value="1" checked><span>40–100</span></label><label class="chip"><input type="radio" name="est-guests" value="2"><span>Peste 100</span></label></div></fieldset>
         <div class="est-field est-range-wrap">
-          <label for="est-ore">Durata muzicii live: <output id="est-ore-out" for="est-ore">1 h 30 min</output></label>
-          <input class="est-range" type="range" id="est-ore" min="1" max="6" step="0.5" value="1.5">
-          <div class="est-range-scale" aria-hidden="true"><span>1 h</span><span>6 h</span></div>
+          <label for="est-ore">Durata muzicii live</label>
+          <div class="est-slider" style="--f:.1">
+            <output id="est-ore-out" class="est-bubble" for="est-ore" aria-hidden="true">1 h 30 min</output>
+            <input class="est-range" type="range" id="est-ore" min="1" max="6" step="0.5" value="1.5" aria-valuetext="1 h 30 min">
+            <div class="est-ticks" aria-hidden="true"><span style="--i:0" class="on">1 h</span><span style="--i:1">2 h</span><span style="--i:2">3 h</span><span style="--i:3">4 h</span><span style="--i:4">5 h</span><span style="--i:5">6 h</span></div>
+          </div>
         </div>
       </div>
       <div class="est-results"><div class="est-card" id="est-quartet"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Cvartet</span><span class="est-who">4 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div><div class="est-card" id="est-duo"><span class="est-badge" hidden>Recomandat</span><span class="est-name">Duo</span><span class="est-who">2 instrumentiști</span><span class="est-total" data-total>—</span><span class="est-per" data-per></span><p class="est-reason" data-reason></p></div></div>
@@ -1226,7 +1292,7 @@
     try {
       /* >>> Edit prices here (lei per hour). Set a value to null to hide that price. <<< */
       var PRICES = { cvartet: 2400, duo: 1200 };
-      var T = {"locale": "ro-RO", "lei": "lei", "perhour": "{p} lei / oră", "hour": "h", "min": "min", "reasonQ": ["Sunet plin și spectaculos — impresionează la intrarea miresei și la momentele importante.", "Sunet bogat, potrivit pentru o petrecere de familie cu mulți invitați.", "Imagine elegantă pentru recepții și evenimente de protocol.", "Sunet bogat și festiv, potrivit pentru orice ocazie."], "reasonQsmall": "Sunetul complet al cvartetului — alegerea spectaculoasă, chiar și pentru o petrecere restrânsă.", "reasonD": "Sunet mai intim și discret, ideal pentru fundal muzical sau petreceri restrânse.", "reasonDbig": "Varianta mai discretă — la un număr mare de invitați, cvartetul se aude mai bine.", "summary": "Recomandat: {name}, {dur}, aproximativ {total} lei.", "prefill": "Estimare de pe site: {name}, {dur} (aprox. {total} lei), invitați: {guests}.", "names": {"quartet": "Cvartet", "duo": "Duo"}};
+      var T = {"locale": "ro-RO", "lei": "lei", "perhour": "{p} lei / oră", "hour": "h", "min": "min", "reasonQ": ["Sunet plin și spectaculos — impresionează la intrarea miresei și la momentele importante.", "Sunet bogat, potrivit pentru o petrecere de familie cu mulți invitați.", "Imagine elegantă pentru recepții și evenimente de protocol.", "Sunet bogat și festiv, potrivit pentru orice ocazie."], "reasonQsmall": "Sunetul complet al cvartetului — alegerea spectaculoasă, chiar și pentru o petrecere restrânsă.", "reasonD": "Sunet mai intim și discret, ideal pentru fundal muzical sau petreceri restrânse.", "reasonDbig": "Varianta mai discretă — la un număr mare de invitați, cvartetul se aude mai bine.", "summary": "Recomandat: {name}, {dur}, aproximativ {total} lei.", "prefill": "Estimare de pe site: {name}, {dur} (aprox. {total} lei).", "names": {"quartet": "Cvartet", "duo": "Duo"}};
       var nf = new Intl.NumberFormat(T.locale);
       function fmt(n){ return nf.format(n); }
       function dur(h){
@@ -1261,18 +1327,19 @@
           card.querySelector('[data-reason]').textContent = reason;
         }
         function update(){
-          var tip = val('est-tip'), guests = val('est-guests'), h = parseFloat(range.value);
+          var tip = val('est-tip'), h = parseFloat(range.value);
           out.textContent = dur(h);
-          var duoReco = (guests === 0 && tip !== 2);
-          var reasonQ = (guests === 0) ? T.reasonQsmall : T.reasonQ[tip];
-          var reasonD = (guests === 2) ? T.reasonDbig : T.reasonD;
-          fill(cardQ, 'cvartet', h, !duoReco, reasonQ);
-          fill(cardD, 'duo', h, duoReco, reasonD);
-          var key = duoReco ? 'duo' : 'cvartet';
-          state = { tip: tip, key: key, h: h, guests: guests, total: PRICES[key] ? PRICES[key] * h : null };
+          var sl = est.querySelector('.est-slider');
+          sl.style.setProperty('--f', ((h - 1) / 5).toFixed(4));
+          range.setAttribute('aria-valuetext', dur(h));
+          sl.querySelectorAll('.est-ticks span').forEach(function(t, i){ t.classList.toggle('on', i + 1 <= h); });
+          fill(cardQ, 'cvartet', h, true, T.reasonQ[tip]);
+          fill(cardD, 'duo', h, false, T.reasonD);
+          var key = 'cvartet';
+          state = { tip: tip, key: key, h: h, total: PRICES[key] ? PRICES[key] * h : null };
           clearTimeout(liveTimer);
           liveTimer = setTimeout(function(){
-            live.textContent = T.summary.replace('{name}', duoReco ? T.names.duo : T.names.quartet)
+            live.textContent = T.summary.replace('{name}', T.names.quartet)
               .replace('{dur}', dur(h)).replace('{total}', state.total ? fmt(state.total) : '—');
           }, 450);
         }
@@ -1290,9 +1357,8 @@
           if (selTip) selTip.selectedIndex = state.tip;
           if (selForm) selForm.selectedIndex = (state.key === 'duo') ? 0 : 2;  /* options: Duo, Trio, Cvartet, Not sure */
           if (msg && (!userTouched || msg.value === '')) {
-            var guestsLabel = est.querySelectorAll('input[name="est-guests"]')[state.guests].nextElementSibling.textContent;
             msg.value = T.prefill.replace('{name}', state.key === 'duo' ? T.names.duo : T.names.quartet)
-              .replace('{dur}', dur(state.h)).replace('{total}', state.total ? fmt(state.total) : '—').replace('{guests}', guestsLabel);
+              .replace('{dur}', dur(state.h)).replace('{total}', state.total ? fmt(state.total) : '—');
             userTouched = false;
           }
           setTimeout(function(){
@@ -1302,15 +1368,6 @@
         });
       }
 
-      /* ---- links inside expandable cards that point to the estimator: pick matching ensemble ---- */
-      document.querySelectorAll('.more-body a[href="#estimare"]').forEach(function(a){
-        a.addEventListener('click', function(){
-          var card = a.closest('.formation-card'); if (!card) return;
-          var guestsRadios = document.querySelectorAll('input[name="est-guests"]');
-          var small = card.querySelector('.formation-name') && card.querySelector('.formation-name').getAttribute('data-form') === 'duo';
-          if (guestsRadios.length) { guestsRadios[small ? 0 : 1].checked = true; guestsRadios[small ? 0 : 1].dispatchEvent(new Event('change', { bubbles: true })); }
-        });
-      });
 
       /* ---- click-to-load video: nothing is requested from YouTube/Facebook until the viewer presses play ---- */
       document.querySelectorAll('.video-frame[data-embed]').forEach(function(frame){
